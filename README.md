@@ -40,6 +40,13 @@ linux-cli tool to upload images to a free server.
   "error": {}
 }
 ```
-
 Enjoy!
+
+
+### @guidoenr TODO
+- work with absolute path
+- progress bar
+- go routines
+
+
 
