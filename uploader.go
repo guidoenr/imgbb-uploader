@@ -37,7 +37,6 @@ func (u *Uploader) init(imagePath string) error {
 	u.client = &http.Client{}
 	u.errorMsg = ""
 
-	fmt.Printf("uploading image: %s", imagePath)
 	return nil
 }
 
@@ -86,7 +85,7 @@ func (u *Uploader) UploadImage() (string, error) {
 	}
 
 	// creating the request
-	r, err := http.NewRequest(http.MethodPost, u.apiUrl, pr)
+	request, err := http.NewRequest(http.MethodPost, u.apiUrl, pr)
 	if err != nil {
 		msg := fmt.Sprintf("creating request': %v", err)
 		fmt.Println(msg)
@@ -94,17 +93,18 @@ func (u *Uploader) UploadImage() (string, error) {
 	}
 
 	// setting the header
-	r.Header.Set("Content-Type", form.FormDataContentType())
+	request.Header.Set("Content-Type", form.FormDataContentType())
 
 	// making the request
-	res, err := u.client.Do(r)
+	response, err := u.client.Do(request)
 	if err != nil {
 		msg := fmt.Sprintf("making the request: %v", err)
 		fmt.Println(msg)
 		return "", errors.New(msg)
 	}
 
-	output, err := u.generateOutput(res)
+	// generating the output
+	output, err := u.generateOutput(response)
 
 	return output, nil
 }
