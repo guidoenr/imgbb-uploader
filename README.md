@@ -14,6 +14,7 @@ linux-cli tool to upload images to a free server.
     # upload is the binary file name
     sudo cp <yourPathTo>/imbgg-uploader/upload /usr/local/bin/upload
     ```
+- If you don't trust, you can check the code by your own and do a `go build -o "binaryName"` and then move that to your bin path.
 
 ## Usage
 - `upload exampleImage.png`
