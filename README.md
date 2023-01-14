@@ -1,5 +1,5 @@
 # imgbb-uploader
-linux-cli tool to upload images to a free server.
+Super light-weight linux-cli tool to upload images to the Imgbb free images storage in less than **2 seconds**!
 
 ## Requirements
 - You must set the `IMGBB_API_KEY` (as a local env) with your api key obtained from [ImgBB Free API](https://api.imgbb.com/). Example:
