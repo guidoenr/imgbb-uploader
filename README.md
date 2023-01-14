@@ -40,7 +40,6 @@ linux-cli tool to upload images to a free server.
   "error": {}
 }
 ```
-exit
 
 Enjoy!
 
