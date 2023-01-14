@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -37,16 +36,8 @@ func (u *Uploader) init(imagePath string) error {
 	u.client = &http.Client{}
 	u.errorMsg = ""
 
-	log.Printf("uploading image: %s", imagePath)
+	fmt.Printf("uploading image: %s", imagePath)
 	return nil
-}
-
-func (u *Uploader) fileExists(filename string) bool {
-	info, err := os.Stat(filename)
-	if os.IsNotExist(err) {
-		return false
-	}
-	return !info.IsDir()
 }
 
 func (u *Uploader) UploadImage() (string, error) {
@@ -115,24 +106,18 @@ func (u *Uploader) UploadImage() (string, error) {
 
 	return output, nil
 }
-
 func (u *Uploader) generateOutput(response *http.Response) (string, error) {
 	var output Output
 
 	// returning output
 	bytes, err := io.ReadAll(response.Body)
 	if err != nil {
-		msg := fmt.Sprintf("reading the response body")
-		fmt.Println(msg)
-		return "", errors.New(msg)
+		return "", err
 	}
-
-	fmt.Println(string(bytes))
 
 	err = json.Unmarshal(bytes, &output)
 	if err != nil {
-		msg := fmt.Sprintf("unmarshalling")
-		return "", errors.New(msg)
+		return "", err
 	}
 
 	indent, err := json.MarshalIndent(output, "", "  ")
@@ -141,4 +126,13 @@ func (u *Uploader) generateOutput(response *http.Response) (string, error) {
 	}
 
 	return string(indent), nil
+
+}
+
+func (u *Uploader) fileExists(filename string) bool {
+	info, err := os.Stat(filename)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return !info.IsDir()
 }

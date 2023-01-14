@@ -8,17 +8,23 @@ import (
 
 type Output struct {
 	Data struct {
-		DisplayUrl string `json:"display_url"`
-		Expiration int    `json:"expiration"`
+		DisplayUrl string `json:"display_ur,omitempty"`
+		Expiration int    `json:"expiration,omitempty"`
 		Thumb      struct {
-			Filename string `json:"filename"`
-			Mime     string `json:"mime"`
-			Url      string `json:"url"`
-		} `json:"thumb"`
-		DeleteUrl string `json:"delete_url"`
+			Filename string `json:"filename,omitempty"`
+			Mime     string `json:"mime,omitempty"`
+			Url      string `json:"url,omitempty"`
+		} `json:"thumb,omitempty"`
+		DeleteUrl string `json:"delete_url,omitempty"`
 	} `json:"data"`
-	Success bool `json:"success"`
-	Status  int  `json:"status"`
+	Success    bool `json:"success,omitempty"`
+	Status     int  `json:"status,omitempty"`
+	StatusCode int  `json:"status_code,omitempty"`
+	Error      struct {
+		Message string `json:"message,omitempty"`
+		Code    int    `json:"code,omitempty"`
+	} `json:"error,omitempty"`
+	StatusTxt string `json:"status_txt,omitempty"`
 }
 
 func throwError(msg string) {
