@@ -21,16 +21,32 @@ type Uploader struct {
 	errorMsg  string
 }
 
-func (u *Uploader) init(imagePath string) {
+func (u *Uploader) init(imagePath string) error {
 	u.apiKey = os.Getenv("IMGBB_API_KEY")
 	if u.apiKey == "" {
-		log.Fatalf("IMGBB_API_KEY not setted")
+		msg := fmt.Sprintf("api key not setted")
+		return errors.New(msg)
+	}
+	if !u.fileExists(imagePath) {
+		msg := fmt.Sprintf("the file '%s' doesn't exist", imagePath)
+		return errors.New(msg)
 	}
 
 	u.apiUrl = fmt.Sprintf("%s&key=%s", apiUrl, u.apiKey)
 	u.imagePath = imagePath
 	u.client = &http.Client{}
 	u.errorMsg = ""
+
+	log.Printf("uploading image: %s", imagePath)
+	return nil
+}
+
+func (u *Uploader) fileExists(filename string) bool {
+	info, err := os.Stat(filename)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return !info.IsDir()
 }
 
 func (u *Uploader) UploadImage() (string, error) {
@@ -46,6 +62,7 @@ func (u *Uploader) UploadImage() (string, error) {
 		file, err := os.Open(u.imagePath) // path to image file
 		if err != nil {
 			msg := fmt.Sprintf("opening image '%s': %v", u.imagePath, err)
+			fmt.Println(msg)
 			u.errorMsg = msg
 			return
 		}
@@ -53,6 +70,7 @@ func (u *Uploader) UploadImage() (string, error) {
 		w, err := form.CreateFormFile("image", u.imagePath)
 		if err != nil {
 			msg := fmt.Sprintf("creating form file '%s': %v", u.imagePath, err)
+			fmt.Println(msg)
 			u.errorMsg = msg
 			return
 		}
@@ -60,6 +78,7 @@ func (u *Uploader) UploadImage() (string, error) {
 		_, err = io.Copy(w, file)
 		if err != nil {
 			msg := fmt.Sprintf("copying image '%s': %v", u.imagePath, err)
+			fmt.Println(msg)
 			u.errorMsg = msg
 			return
 		}
@@ -67,8 +86,9 @@ func (u *Uploader) UploadImage() (string, error) {
 		form.Close()
 	}()
 
-	// if no error were produced
+	// if error were produced
 	if u.errorMsg != "" {
+		fmt.Println(u.errorMsg)
 		return "", errors.New(u.errorMsg)
 	}
 
@@ -76,6 +96,7 @@ func (u *Uploader) UploadImage() (string, error) {
 	r, err := http.NewRequest(http.MethodPost, u.apiUrl, pr)
 	if err != nil {
 		msg := fmt.Sprintf("creating request': %v", err)
+		fmt.Println(msg)
 		return "", errors.New(msg)
 	}
 
@@ -86,6 +107,7 @@ func (u *Uploader) UploadImage() (string, error) {
 	res, err := u.client.Do(r)
 	if err != nil {
 		msg := fmt.Sprintf("making the request: %v", err)
+		fmt.Println(msg)
 		return "", errors.New(msg)
 	}
 
@@ -101,8 +123,11 @@ func (u *Uploader) generateOutput(response *http.Response) (string, error) {
 	bytes, err := io.ReadAll(response.Body)
 	if err != nil {
 		msg := fmt.Sprintf("reading the response body")
+		fmt.Println(msg)
 		return "", errors.New(msg)
 	}
+
+	fmt.Println(string(bytes))
 
 	err = json.Unmarshal(bytes, &output)
 	if err != nil {

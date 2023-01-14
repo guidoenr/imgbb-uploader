@@ -23,6 +23,7 @@ type Output struct {
 
 func throwError(msg string) {
 	fmt.Printf("[error]: %s\n", msg)
+	os.Exit(0)
 }
 
 func main() {
@@ -44,10 +45,15 @@ func main() {
 	imagePath := filepath.Join(currentPath, fileName)
 
 	// initializing the uploader
-	uploader.init(imagePath)
+	err := uploader.init(imagePath)
+	if err != nil {
+		msg := fmt.Sprintf("intializing uploader: %v", err)
+		throwError(msg)
+	}
 
 	// uploading the img
 	output, err := uploader.UploadImage()
+	fmt.Println(uploader.errorMsg)
 	if err != nil {
 		msg := fmt.Sprintf("uploading image: %v", err)
 		throwError(msg)
