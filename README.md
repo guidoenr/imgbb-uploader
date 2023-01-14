@@ -8,13 +8,17 @@ linux-cli tool to upload images to a free server.
   ```
   Once you do that, you're ready 
 
-## Instalation
-- Only move the binary in this repo to `/usr/local/bin/`. Example:
+## Instalation [auto]
+- There is an `install.sh` file inside this repo, you can `sudo bash install.sh`
+
+## Instalation [manual]
+- Only move the binary in this repo to `/usr/local/bin/`. Example: 
     ```bash
     # upload is the binary file name
     sudo cp <yourPathTo>/imbgg-uploader/upload /usr/local/bin/upload
     ```
 - If you don't trust, you can check the code by your own and do a `go build -o "binaryName"` and then move that to your bin path.
+
 
 ## Usage
 - `upload exampleImage.png`
