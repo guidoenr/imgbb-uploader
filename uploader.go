@@ -20,6 +20,7 @@ type Uploader struct {
 	errorMsg  string
 }
 
+// init to initialize the uploader
 func (u *Uploader) init(imagePath string) error {
 	u.apiKey = os.Getenv("IMGBB_API_KEY")
 	if u.apiKey == "" {
@@ -40,6 +41,7 @@ func (u *Uploader) init(imagePath string) error {
 	return nil
 }
 
+// UploadImage just do that
 func (u *Uploader) UploadImage() (string, error) {
 	// pr = pipeReader, pw =pipeWriter
 	pr, pw := io.Pipe()
@@ -106,6 +108,8 @@ func (u *Uploader) UploadImage() (string, error) {
 
 	return output, nil
 }
+
+// generateOutput will parse the response into a json output to print in the terminal
 func (u *Uploader) generateOutput(response *http.Response) (string, error) {
 	var output Output
 
@@ -129,6 +133,7 @@ func (u *Uploader) generateOutput(response *http.Response) (string, error) {
 
 }
 
+// fileExists check if the file exists
 func (u *Uploader) fileExists(filename string) bool {
 	info, err := os.Stat(filename)
 	if os.IsNotExist(err) {

@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="feea71d2-8af1-4fc7-b4d3-185a98635dec" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uploader.go" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.go" afterDir="false" />
     </list>
@@ -39,7 +40,8 @@
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/home/guido/workspace/imgbb-uploader"
+    "last_opened_file_path": "/home/guido/workspace/imgbb-uploader",
+    "nodejs_package_manager_path": "npm"
   }
 }]]></component>
   <component name="RunManager">

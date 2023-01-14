@@ -8,7 +8,7 @@ import (
 
 type Output struct {
 	Data struct {
-		DisplayUrl string `json:"display_ur,omitempty"`
+		DisplayUrl string `json:"display_url,omitempty"`
 		Expiration int    `json:"expiration,omitempty"`
 		Thumb      struct {
 			Filename string `json:"filename,omitempty"`
@@ -28,7 +28,7 @@ type Output struct {
 }
 
 func throwError(msg string) {
-	fmt.Printf("[error]: %s\n", msg)
+	fmt.Printf("\033[31m[error]\033[0m: %s", msg)
 	os.Exit(0)
 }
 
@@ -36,15 +36,15 @@ func main() {
 	// creating the uploader
 	var uploader Uploader
 
-	// checkign the args
+	// checking the args
 	if len(os.Args) < 2 {
-		throwError("you must select your image")
+		throwError("you must provide an image\n(e.g: upload image.jpg)")
 	}
 
 	// reading the filename as first argument
 	fileName := os.Args[1]
 
-	// currentPath
+	// get the currentPath
 	currentPath, _ := os.Getwd()
 
 	// setting the imagePath
@@ -59,12 +59,10 @@ func main() {
 
 	// uploading the img
 	output, err := uploader.UploadImage()
-	fmt.Println(uploader.errorMsg)
 	if err != nil {
 		msg := fmt.Sprintf("uploading image: %v", err)
 		throwError(msg)
 	}
 
 	fmt.Println(output)
-
 }
