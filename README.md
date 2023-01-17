@@ -3,6 +3,9 @@ Super light-weight linux-cli tool to upload images to the Imgbb free images stor
 - Maximum Size of image:`15MB`
 - Maximum images p/hour: `20`
 
+> This also works on **windows**, i didn't test it, but i know the `syscalls` that the go libraries does are the same in windows, so you will have no issues at the moment of adding this binary in your terminal.
+
+
 ## Requirements
 - You must set the `IMGBB_API_KEY` (as a local env) with your api key obtained from [ImgBB Free API](https://api.imgbb.com/). Example:
   ```bash
